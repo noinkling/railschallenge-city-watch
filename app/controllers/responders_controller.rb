@@ -21,7 +21,7 @@ class RespondersController < ApplicationController
     @responder = Responder.new(create_responder_params)
 
     if @responder.save
-      render :show, status: :ok, location: responder_url(@responder)
+      render :show, status: :created, location: responder_url(@responder)
     else
       render json: { message: @responder.errors }, status: :unprocessable_entity
     end

@@ -1,4 +1,3 @@
-json.array!(@responders) do |responder|
-  json.extract! responder, :id, :type, :name, :capacity, :on_duty
-  json.url responder_url(responder, format: :json)
+json.responders(@responders) do |responder|
+  json.extract! responder, :emergency_code, :type, :name, :capacity, :on_duty
 end

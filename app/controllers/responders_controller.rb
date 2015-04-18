@@ -4,6 +4,9 @@ class RespondersController < ApplicationController
   # GET /responders
   # GET /responders.json
   def index
+    if params[:show] == 'capacity'
+      # TODO: Work out what to put here
+    end
     @responders = Responder.all
   end
 
@@ -34,6 +37,8 @@ class RespondersController < ApplicationController
     else
       render json: @responder.errors, status: :unprocessable_entity
     end
+  rescue ActionController::UnpermittedParameters => e
+    render json: { message: e.message }, status: :unprocessable_entity
   end
 
   # DELETE /responders/:name
@@ -57,7 +62,8 @@ class RespondersController < ApplicationController
   private
 
   def set_responder
-    @responder = Responder.find(params[:id])
+    @responder = Responder.find_by(name: params[:name])
+    render_404 unless @responder
   end
 
   def create_responder_params
@@ -65,6 +71,7 @@ class RespondersController < ApplicationController
   end
 
   def update_responder_params
+    params.require(:responder).permit(:on_duty)
   end
 
   def render_404

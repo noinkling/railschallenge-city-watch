@@ -5,7 +5,7 @@ class RespondersController < ApplicationController
   # GET /responders.json
   def index
     if params[:show] == 'capacity'
-      # TODO: Work out what to put here
+      render json: Responder.capacities
     end
     @responders = Responder.all
   end

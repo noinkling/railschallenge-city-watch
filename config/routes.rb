@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
-  resources :emergencies
-  resources :responders, format: 'json', param: :name
+  defaults format: 'json' do
+    resources :emergencies, param: :code, except: [:new, :edit, :destroy]
+    resources :responders, param: :name, except: [:new, :edit, :destroy]
+    match '*path' => 'application#render_404', via: :all
+  end
 end

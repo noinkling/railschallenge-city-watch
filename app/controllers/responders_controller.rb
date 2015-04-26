@@ -1,6 +1,6 @@
 class RespondersController < ApplicationController
   def index
-    render json: Responder.capacities_by_type if params[:show] == 'capacity'
+    render json: Responder.capacities_by_type if params[:show].try(:downcase) == 'capacity'
     @responders = Responder.all
   end
 

@@ -11,30 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150419003302) do
+ActiveRecord::Schema.define(version: 20150419072517) do
 
   create_table "emergencies", force: :cascade do |t|
-    t.string   "code",             null: false
-    t.integer  "fire_severity",    null: false
-    t.integer  "police_severity",  null: false
-    t.integer  "medical_severity", null: false
+    t.string   "code",                             null: false
+    t.integer  "fire_severity",                    null: false
+    t.integer  "police_severity",                  null: false
+    t.integer  "medical_severity",                 null: false
     t.datetime "resolved_at"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.boolean  "full_response",    default: false, null: false
   end
 
   add_index "emergencies", ["code"], name: "index_emergencies_on_code", unique: true
   add_index "emergencies", ["resolved_at"], name: "index_emergencies_on_resolved_at"
 
   create_table "responders", force: :cascade do |t|
-    t.string   "type",                       null: false
-    t.string   "name",                       null: false
-    t.integer  "capacity",                   null: false
-    t.boolean  "on_duty",    default: false, null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.string   "type",                         null: false
+    t.string   "name",                         null: false
+    t.integer  "capacity",                     null: false
+    t.boolean  "on_duty",      default: false, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "emergency_id"
   end
 
+  add_index "responders", ["emergency_id"], name: "index_responders_on_emergency_id"
   add_index "responders", ["name"], name: "index_responders_on_name", unique: true
   add_index "responders", ["type", "on_duty", "capacity"], name: "index_responders_on_type_and_on_duty_and_capacity"
 

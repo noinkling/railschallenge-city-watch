@@ -39,7 +39,7 @@ class Emergency < ActiveRecord::Base
       best_matches[:collection] << single_match
       best_matches[:sufficient] = true
     else
-      dispatchable_responders_for(klass).each_with_index do |responder|
+      dispatchable_responders_for(klass).find_each do |responder|
         best_matches[:collection] << responder
         if best_matches[:collection].map(&:capacity).reduce(:+) >= severity
           best_matches[:sufficient] = true

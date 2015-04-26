@@ -13,6 +13,6 @@ class ApplicationController < ActionController::Base
   private
 
   def render_unpermitted_params(e)
-    render json: { message: e.message }, status: :unprocessable_entity
+    render json: { message: e.message }, status: 422
   end
 end

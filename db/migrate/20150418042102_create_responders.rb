@@ -9,6 +9,5 @@ class CreateResponders < ActiveRecord::Migration
       t.timestamps null: false
     end
     add_index :responders, :name, unique: true
-    add_index :responders, [:type, :on_duty, :capacity]
   end
 end

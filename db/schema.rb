@@ -39,6 +39,6 @@ ActiveRecord::Schema.define(version: 20150419072517) do
 
   add_index "responders", ["emergency_id"], name: "index_responders_on_emergency_id"
   add_index "responders", ["name"], name: "index_responders_on_name", unique: true
-  add_index "responders", ["type", "on_duty", "capacity"], name: "index_responders_on_type_and_on_duty_and_capacity"
+  add_index "responders", ["type", "emergency_id", "on_duty", "capacity"], name: "responders_multi_column_index"
 
 end

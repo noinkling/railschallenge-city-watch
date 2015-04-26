@@ -11,9 +11,9 @@ class EmergenciesController < ApplicationController
     @emergency = Emergency.new(create_params)
     if @emergency.save
       @emergency.dispatch_responders
-      render :show, status: :created, location: @emergency
+      render :show, status: 201, location: @emergency
     else
-      render json: { message: @emergency.errors }, status: :unprocessable_entity
+      render json: { message: @emergency.errors }, status: 422
     end
   end
 
@@ -21,9 +21,9 @@ class EmergenciesController < ApplicationController
     set_emergency
     if @emergency.update(update_params)
       @emergency.update_dispatch
-      render :show, status: :ok, location: @emergency
+      render :show, status: 200, location: @emergency
     else
-      render json: { message: @emergency.errors }, status: :unprocessable_entity
+      render json: { message: @emergency.errors }, status: 422
     end
   end
 

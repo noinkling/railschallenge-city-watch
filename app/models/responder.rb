@@ -2,28 +2,23 @@ class Responder < ActiveRecord::Base
   belongs_to :emergency
 
   validates :type, :name, :capacity,
-    presence: true
+            presence: true
   validates :name,
-    uniqueness: { case_sensitive: false }
+            uniqueness: { case_sensitive: false }
   validates :capacity,
-    inclusion: { in: 1..5 }
+            inclusion: { in: 1..5 }
 
   scope :available, -> { where(emergency_id: nil) }
   scope :on_duty, -> { where(on_duty: true) }
-  # scope :fire, -> { where(type: 'Fire') }
-  # scope :police, -> { where(type: 'Police') }
-  # scope :medical, -> { where(type: 'Medical') }
 
   delegate :code, to: :emergency, prefix: true, allow_nil: true # .emergency_code
 
-  def self.capacities
-    {
-      capacity: {
-        Fire: Fire.capacity,
-        Police: Police.capacity,
-        Medical: Medical.capacity
-      }
-    }
+  def self.capacities_by_type
+    capacities = { capacity: {} }
+    Responder.subclasses.each do |klass|
+      capacities[:capacity][:"#{klass.name}"] = klass.capacity
+    end
+    capacities
   end
 
   def self.capacity

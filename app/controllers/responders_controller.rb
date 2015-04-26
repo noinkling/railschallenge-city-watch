@@ -1,6 +1,6 @@
 class RespondersController < ApplicationController
   def index
-    render json: Responder.capacities if params[:show] == 'capacity'
+    render json: Responder.capacities_by_type if params[:show] == 'capacity'
     @responders = Responder.all
   end
 
@@ -12,18 +12,18 @@ class RespondersController < ApplicationController
     @responder = Responder.new(create_params)
 
     if @responder.save
-      render :show, status: :created, location: responder_url(@responder)
+      render :show, status: 201, location: responder_url(@responder)
     else
-      render json: { message: @responder.errors }, status: :unprocessable_entity
+      render json: { message: @responder.errors }, status: 422
     end
   end
 
   def update
     set_responder
     if @responder.update(update_params)
-      render :show, status: :ok, location: responder_url(@responder)
+      render :show, status: 200, location: responder_url(@responder)
     else
-      render json: { message: @responder.errors }, status: :unprocessable_entity
+      render json: { message: @responder.errors }, status: 422
     end
   end
 

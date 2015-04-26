@@ -10,6 +10,7 @@ class EmergenciesController < ApplicationController
   def create
     @emergency = Emergency.new(create_params)
     if @emergency.save
+      @emergency.dispatch_responders
       render :show, status: :created, location: @emergency
     else
       render json: { message: @emergency.errors }, status: :unprocessable_entity
@@ -19,6 +20,7 @@ class EmergenciesController < ApplicationController
   def update
     set_emergency
     if @emergency.update(update_params)
+      @emergency.update_dispatch
       render :show, status: :ok, location: @emergency
     else
       render json: { message: @emergency.errors }, status: :unprocessable_entity
